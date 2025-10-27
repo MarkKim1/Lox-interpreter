@@ -1,0 +1,14 @@
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ToolGenerator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ToolGenerator.AssemblyInfoInputs.cache
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ToolGenerator.AssemblyInfo.cs
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ToolGenerator.csproj.CoreCompileInputs.cache
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/bin/Debug/net9.0/ToolGenerator
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/bin/Debug/net9.0/ToolGenerator.deps.json
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/bin/Debug/net9.0/ToolGenerator.runtimeconfig.json
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/bin/Debug/net9.0/ToolGenerator.dll
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/bin/Debug/net9.0/ToolGenerator.pdb
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ToolGenerator.dll
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/refint/ToolGenerator.dll
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ToolGenerator.pdb
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ToolGenerator.genruntimeconfig.cache
+/Users/minseok/Desktop/FALL 2025/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ref/ToolGenerator.dll
