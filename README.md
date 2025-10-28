@@ -1,4 +1,4 @@
-# LoxSharp
+# Lox-interpreter in C#
 
 ### Crafting Interpreter by Robert Nystrom, implementing scripting language using C#
 
