@@ -36,8 +36,7 @@ class Interpreter : Expr.Visitor<object>
             _ => null!,
         };
     }
-
-
+    // Helper method for equality check
     // Custom method to handle addtion of different operand types
     private object AddOperands(object left, object right)
     {
