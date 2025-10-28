@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/Lox.csproj": {}
+    "/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/Lox.csproj": {}
   },
   "projects": {
-    "/Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/Lox.csproj": {
+    "/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/Lox.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/Lox.csproj",
+        "projectUniqueName": "/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/Lox.csproj",
         "projectName": "Lox",
-        "projectPath": "/Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/Lox.csproj",
+        "projectPath": "/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/Lox.csproj",
         "packagesPath": "/Users/minseok/.nuget/packages/",
-        "outputPath": "/Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/obj/",
+        "outputPath": "/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/minseok/.nuget/NuGet/NuGet.Config"
