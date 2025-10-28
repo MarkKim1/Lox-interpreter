@@ -55,3 +55,4 @@
 /Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.pdb
 /Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.genruntimeconfig.cache
 /Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/ref/Lox.dll
+/Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/obj/Debug/net9.0/Lox.sourcelink.json
