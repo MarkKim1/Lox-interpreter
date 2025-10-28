@@ -40,3 +40,18 @@
 /Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/bin/Debug/net9.0/Lox.pdb
 /Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/obj/Debug/net9.0/Lox.genruntimeconfig.cache
 /Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/Lox/obj/Debug/net9.0/ref/Lox.dll
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/bin/Debug/net9.0/Lox
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/bin/Debug/net9.0/Lox.deps.json
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/bin/Debug/net9.0/Lox.runtimeconfig.json
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/bin/Debug/net9.0/Lox.dll
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/bin/Debug/net9.0/Lox.pdb
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.GeneratedMSBuildEditorConfig.editorconfig
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.AssemblyInfoInputs.cache
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.AssemblyInfo.cs
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.csproj.CoreCompileInputs.cache
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.sourcelink.json
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.dll
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/refint/Lox.dll
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.pdb
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/Lox.genruntimeconfig.cache
+/Users/minseok/Documents/GitHub/Lox-interpreter/Lox/Lox/obj/Debug/net9.0/ref/Lox.dll
