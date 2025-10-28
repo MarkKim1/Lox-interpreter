@@ -36,6 +36,8 @@ class Interpreter : Expr.Visitor<object>
             _ => null!,
         };
     }
+
+
     // Custom method to handle addtion of different operand types
     private object AddOperands(object left, object right)
     {
