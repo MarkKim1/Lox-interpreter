@@ -190,13 +190,14 @@ class Parser
             consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.");
             return new Expr.Grouping(expr);
         }
+
         throw error(peek(), "Expect expression.");
     }
     private Token consume(TokenType type, String message)
     {
         if (check(type)) return advance();
 
-        throw new Exception(message);
+        throw error(peek(), message);
     }
 
     private bool match(params TokenType[] types)

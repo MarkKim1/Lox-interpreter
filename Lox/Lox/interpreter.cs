@@ -4,15 +4,7 @@ using LoxInterpreter;
 class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
 {
     private Environment1 environment = new Environment1();
-    public object VisitLiteralExpr(Expr.Literal expr)
-    {
-        return expr.value!;
-    }
 
-    public object VisitGroupingExpr(Expr.Grouping expr)
-    {
-        return Evaluate(expr.expression!);
-    }
     private object Evaluate(Expr expr)
     {
         return expr.Accept(this);
@@ -36,49 +28,6 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
         finally
         {
             this.environment = previous;
-        }
-    }
-    public void visitExpressionStmt(Stmt.Expression stmt)
-    {
-        Evaluate(stmt.expression!);
-    }
-    public object VisitBinaryExpr(Expr.Binary expr)
-    {
-        object left = Evaluate(expr.left!);
-        object right = Evaluate(expr.right!);
-
-        switch (expr.operatorToken!.type)
-        {
-            case TokenType.GREATER:
-                checkNumberOperands(expr.operatorToken!, left, right);
-                return (double)left > (double)right;
-            case TokenType.GREATER_EQUAL:
-                checkNumberOperands(expr.operatorToken!, left, right);
-                return (double)left >= (double)right;
-            case TokenType.LESS:
-                checkNumberOperands(expr.operatorToken!, left, right);
-                return (double)left < (double)right;
-            case TokenType.LESS_EQUAL:
-                checkNumberOperands(expr.operatorToken!, left, right);
-                return (double)left <= (double)right;
-            case TokenType.MINUS:
-                checkNumberOperands(expr.operatorToken!, left, right);
-                return (double)left - (double)right;
-            case TokenType.PLUS:
-                return AddOperands(expr.operatorToken!, left, right);
-            case TokenType.SLASH:
-                checkNumberOperands(expr.operatorToken!, left, right);
-                return (double)left / (double)right;
-            case TokenType.STAR:
-                checkNumberOperands(expr.operatorToken!, left, right);
-                return (double)left * (double)right;
-            case TokenType.BANG_EQUAL:
-                return !isEqual(left, right);
-            case TokenType.EQUAL_EQUAL:
-                return isEqual(left, right);
-            // Unreachable.
-            default:
-                return null!;
         }
     }
     private void checkNumberOperands(Token op, object left, object right)
@@ -124,19 +73,6 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
             return (string)left + (string)right;
         }
         throw new RuntimeError(op, "Operands must be two numbers or two strings.");
-    }
-
-    public object VisitUnaryExpr(Expr.Unary expr)
-    {
-        object right = Evaluate(expr.right!);
-
-        return expr.operatorToken!.type switch
-        {
-            TokenType.MINUS => -(double)right,
-            TokenType.BANG => !IsTruthy(right),
-            // Unreachable.
-            _ => null!,
-        };
     }
     private bool IsTruthy(object obj)
     {
