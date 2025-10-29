@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using LoxInterpreter;
 public class Lox
 {
-    static bool hadError = false;
+    private static readonly Interpreter interpreter = new Interpreter();
+    private static bool hadError = false;
+    private static bool hadRuntimeError = false;
+
     public static void Main(string[] args)
     {
         try
@@ -38,6 +41,7 @@ public class Lox
 
         // Indicate an error in the exit code.
         if (hadError) Environment.Exit(65);
+        if (hadRuntimeError) Environment.Exit(70);
 
     }
     public static void runPrompt()
@@ -61,7 +65,8 @@ public class Lox
 
         if (hadError) return;
 
-        Console.WriteLine(new AstPrinter().Print(expression));
+        //Console.WriteLine(new AstPrinter().Print(expression));
+        interpreter.interpret(expression);
 
     }
     public static void Error(int line, string message)
@@ -83,5 +88,10 @@ public class Lox
         {
             Report(token.line, " at '" + token.lexeme + "'", message);
         }
+    }
+    public static void runtimeError(RuntimeError error)
+    {
+        Console.Error.WriteLine($"{error.Message}\n[line {error.token.line}]");
+        hadRuntimeError = true;
     }
 }

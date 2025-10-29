@@ -20,25 +20,73 @@ class Interpreter : Expr.Visitor<object>
         object left = Evaluate(expr.left!);
         object right = Evaluate(expr.right!);
 
-        return expr.operatorToken!.type switch
+        switch (expr.operatorToken!.type)
         {
-            TokenType.GREATER => (double)left > (double)right,
-            TokenType.GREATER_EQUAL => (double)left >= (double)right,
-            TokenType.LESS => (double)left < (double)right,
-            TokenType.LESS_EQUAL => (double)left <= (double)right,
-            TokenType.MINUS => (double)left - (double)right,
-            TokenType.PLUS => AddOperands(left, right),
-            TokenType.SLASH => (double)left / (double)right,
-            TokenType.STAR => (double)left * (double)right,
-            TokenType.BANG_EQUAL => !isEqual(left, right),
-            TokenType.EQUAL_EQUAL => isEqual(left, right), // TODO : need to implement isEqual on Chapter 7
+            case TokenType.GREATER:
+                checkNumberOperands(expr.operatorToken!, left, right);
+                return (double)left > (double)right;
+            case TokenType.GREATER_EQUAL:
+                checkNumberOperands(expr.operatorToken!, left, right);
+                return (double)left >= (double)right;
+            case TokenType.LESS:
+                checkNumberOperands(expr.operatorToken!, left, right);
+                return (double)left < (double)right;
+            case TokenType.LESS_EQUAL:
+                checkNumberOperands(expr.operatorToken!, left, right);
+                return (double)left <= (double)right;
+            case TokenType.MINUS:
+                checkNumberOperands(expr.operatorToken!, left, right);
+                return (double)left - (double)right;
+            case TokenType.PLUS:
+                return AddOperands(expr.operatorToken!, left, right);
+            case TokenType.SLASH:
+                checkNumberOperands(expr.operatorToken!, left, right);
+                return (double)left / (double)right;
+            case TokenType.STAR:
+                checkNumberOperands(expr.operatorToken!, left, right);
+                return (double)left * (double)right;
+            case TokenType.BANG_EQUAL:
+                return !isEqual(left, right);
+            case TokenType.EQUAL_EQUAL:
+                return isEqual(left, right);
             // Unreachable.
-            _ => null!,
-        };
+            default:
+                return null!;
+        }
     }
-    // Helper method for equality check
+    private void checkNumberOperands(Token op, object left, object right)
+    {
+        if (left is Double && right is Double) return;
+        throw new RuntimeError(op, "Operands must be numbers.");
+    }
+    private void checkNumberOperands(Token obj, object operand)
+    {
+        if (operand is double) return;
+        throw new RuntimeError(obj, "Operand must be a number.");
+    }
+    private bool isEqual(object a, object b)
+    {
+        if (a == null && b == null) return true;
+        if (a == null) return false;
+
+        return a.Equals(b);
+    }
+    private string stringify(object obj)
+    {
+        if (obj == null) return "nil";
+        if (obj is double)
+        {
+            string? text = obj.ToString();
+            if (text!.EndsWith(".0"))
+            {
+                text = text.Substring(0, text.Length - 2);
+            }
+            return text;
+        }
+        return obj.ToString()!;
+    }
     // Custom method to handle addtion of different operand types
-    private object AddOperands(object left, object right)
+    private object AddOperands(Token op, object left, object right)
     {
         if (left is double && right is double)
         {
@@ -48,7 +96,7 @@ class Interpreter : Expr.Visitor<object>
         {
             return (string)left + (string)right;
         }
-        return (int)left + (int)right; // Fallback for other types (e.g., int)
+        throw new RuntimeError(op, "Operands must be two numbers or two strings.");
     }
 
     public object VisitUnaryExpr(Expr.Unary expr)
@@ -68,6 +116,18 @@ class Interpreter : Expr.Visitor<object>
         if (obj == null) return false;
         if (obj is bool v) return v;
         return true;
+    }
+    public void interpret(Expr expression)
+    {
+        try
+        {
+            object value = Evaluate(expression);
+            Console.WriteLine(stringify(value));
+        }
+        catch (RuntimeError error)
+        {
+            Lox.runtimeError(error);
+        }
     }
 
 }
