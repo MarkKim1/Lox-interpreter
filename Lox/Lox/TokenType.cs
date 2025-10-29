@@ -1,3 +1,4 @@
+using LoxInterpreter;
 public enum TokenType
 {
     // Single-character tokens.

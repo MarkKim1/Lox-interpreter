@@ -15,6 +15,7 @@ public class GenerateAst
             "Binary   : Expr left, Token operatorToken, Expr right",
             "Grouping : Expr expression",
             "Literal  : object value",
+            "Logical  : Expr left, Token op, Expr right",
             "Unary    : Token operatorToken, Expr right",
             "Variable : Token name"
         });
@@ -22,10 +23,11 @@ public class GenerateAst
         {
             "Block      : List<Stmt> statements",
             "Expression : Expr expression",
-            "If         : Expr condition, Stmt thenBrand," +
-                        "Stmt elseBranch",
+            "If         : Expr condition, Stmt thenBranch," +
+                        " Stmt elseBranch",
             "Print      : Expr expression",
-            "Var        : Token name, Expr initializer"
+            "Var        : Token name, Expr initializer",
+            "While      : Expr condition, Stmt body"
         });
 
     }

@@ -34,7 +34,7 @@ class Environment1
     {
         if (values.ContainsKey(name.lexeme!))
         {
-            values.Add(name.lexeme!, value);
+            values[name.lexeme!] = value;
             return;
         }
 

@@ -29,6 +29,11 @@ public class AstPrinter : Expr.Visitor<string>
         return expr.value.ToString()!;
     }
 
+    public string visitLogicalExpr(Expr.Logical expr)
+    {
+        throw new NotImplementedException();
+    }
+
     public string visitUnaryExpr(Expr.Unary expr)
     {
         return Parenthesize(expr.operatorToken!.lexeme!, expr.right!);

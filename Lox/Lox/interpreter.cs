@@ -211,4 +211,41 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
         executeBlock(stmt.statements!, new Environment1(environment));
         return null!;
     }
+
+    public object visitIfStmt(Stmt.If stmt)
+    {
+        if (IsTruthy(Evaluate(stmt.condition!)))
+        {
+            execute(stmt.thenBranch!);
+        }
+        else if (stmt.elseBranch != null)
+        {
+            execute(stmt.elseBranch);
+        }
+        return null!;
+    }
+
+    public object visitLogicalExpr(Expr.Logical expr)
+    {
+        object left = Evaluate(expr.left!);
+
+        if (expr.op!.type == TokenType.OR)
+        {
+            if (IsTruthy(left)) return left;
+        }
+        else
+        {
+            if (!IsTruthy(left)) return left;
+        }
+        return Evaluate(expr.right!);
+    }
+
+    public object visitWhileStmt(Stmt.While stmt)
+    {
+        while (IsTruthy(Evaluate(stmt.condition!)))
+        {
+            execute(stmt.body!);
+        }
+        return null!;
+    }
 }
