@@ -13,17 +13,6 @@ class Parser
     {
         this.tokens = tokens;
     }
-    // public Expr parse()
-    // {
-    //     try
-    //     {
-    //         return expression();
-    //     }
-    //     catch (ParseError)
-    //     {
-    //         return null!;
-    //     }
-    // }
     public List<Stmt> parse()
     {
         List<Stmt> statements = new();
