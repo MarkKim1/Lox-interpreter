@@ -139,7 +139,9 @@ class Scanner
         // The closing ".
         advance();
         // Trim the surrounding quotes.
-        string value = source.Substring(start + 1, current - 1);
+        int length = current - start - 2;
+        string value = source.Substring(start + 1, length);
+        //System.Console.WriteLine($"value: {value}");
         addToken(TokenType.STRING, value);
     }
     private bool match(char expected)

@@ -1,67 +1,94 @@
 ﻿namespace LoxInterpreter;
 
-public abstract class Expr
+public abstract class Expr {
+public interface Visitor<R> 
 {
-    public interface Visitor<R>
+    R visitAssignExpr(Assign expr);
+    R visitBinaryExpr(Binary expr);
+    R visitGroupingExpr(Grouping expr);
+    R visitLiteralExpr(Literal expr);
+    R visitUnaryExpr(Unary expr);
+    R visitVariableExpr(Variable expr);
+}
+public abstract R Accept<R>(Visitor<R> visitor);
+public class Assign : Expr
+{
+    public readonly Token? name;
+    public readonly Expr? value;
+    public Assign ( Token name, Expr value )
     {
-        R visitBinaryExpr(Binary expr);
-        R visitGroupingExpr(Grouping expr);
-        R visitLiteralExpr(Literal expr);
-        R visitUnaryExpr(Unary expr);
+        this.name = name;
+        this.value = value;
     }
-    public abstract R Accept<R>(Visitor<R> visitor);
-    public class Binary : Expr
+    public override R Accept<R>(Visitor<R> visitor)
     {
-        public readonly Expr? left;
-        public readonly Token? operatorToken;
-        public readonly Expr? right;
-        public Binary(Expr left, Token operatorToken, Expr right)
-        {
-            this.left = left;
-            this.operatorToken = operatorToken;
-            this.right = right;
-        }
-        public override R Accept<R>(Visitor<R> visitor)
-        {
-            return visitor.visitBinaryExpr(this);
-        }
+        return visitor.visitAssignExpr(this);
     }
-    public class Grouping : Expr
+}
+public class Binary : Expr
+{
+    public readonly Expr? left;
+    public readonly Token? operatorToken;
+    public readonly Expr? right;
+    public Binary ( Expr left, Token operatorToken, Expr right )
     {
-        public readonly Expr? expression;
-        public Grouping(Expr expression)
-        {
-            this.expression = expression;
-        }
-        public override R Accept<R>(Visitor<R> visitor)
-        {
-            return visitor.visitGroupingExpr(this);
-        }
+        this.left = left;
+        this.operatorToken = operatorToken;
+        this.right = right;
     }
-    public class Literal : Expr
+    public override R Accept<R>(Visitor<R> visitor)
     {
-        public readonly object? value;
-        public Literal(object? value)
-        {
-            this.value = value;
-        }
-        public override R Accept<R>(Visitor<R> visitor)
-        {
-            return visitor.visitLiteralExpr(this);
-        }
+        return visitor.visitBinaryExpr(this);
     }
-    public class Unary : Expr
+}
+public class Grouping : Expr
+{
+    public readonly Expr? expression;
+    public Grouping ( Expr expression )
     {
-        public readonly Token? operatorToken;
-        public readonly Expr? right;
-        public Unary(Token operatorToken, Expr right)
-        {
-            this.operatorToken = operatorToken;
-            this.right = right;
-        }
-        public override R Accept<R>(Visitor<R> visitor)
-        {
-            return visitor.visitUnaryExpr(this);
-        }
+        this.expression = expression;
     }
+    public override R Accept<R>(Visitor<R> visitor)
+    {
+        return visitor.visitGroupingExpr(this);
+    }
+}
+public class Literal : Expr
+{
+    public readonly object? value;
+    public Literal ( object? value )
+    {
+        this.value = value;
+    }
+    public override R Accept<R>(Visitor<R> visitor)
+    {
+        return visitor.visitLiteralExpr(this);
+    }
+}
+public class Unary : Expr
+{
+    public readonly Token? operatorToken;
+    public readonly Expr? right;
+    public Unary ( Token operatorToken, Expr right )
+    {
+        this.operatorToken = operatorToken;
+        this.right = right;
+    }
+    public override R Accept<R>(Visitor<R> visitor)
+    {
+        return visitor.visitUnaryExpr(this);
+    }
+}
+public class Variable : Expr
+{
+    public readonly Token? name;
+    public Variable ( Token name )
+    {
+        this.name = name;
+    }
+    public override R Accept<R>(Visitor<R> visitor)
+    {
+        return visitor.visitVariableExpr(this);
+    }
+}
 }

@@ -11,11 +11,21 @@ public class GenerateAst
 
         DefineAst(outputDir, "Expr", new List<string>
         {
+            "Assign   : Token name, Expr value",
             "Binary   : Expr left, Token operatorToken, Expr right",
             "Grouping : Expr expression",
             "Literal  : object value",
-            "Unary    : Token operatorToken, Expr right"
+            "Unary    : Token operatorToken, Expr right",
+            "Variable : Token name"
         });
+        DefineAst(outputDir, "Stmt", new List<string>
+        {
+            "Block      : List<Stmt> statements",
+            "Expression : Expr expression",
+            "Print      : Expr expression",
+            "Var        : Token name, Expr initializer"
+        });
+
     }
     private static void DefineAst(string outputDir, string baseName, List<string> types)
     {

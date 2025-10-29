@@ -26,3 +26,4 @@
 /Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/tool.pdb
 /Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/tool.genruntimeconfig.cache
 /Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/ref/tool.dll
+/Users/minseok/Desktop/2025 FALL/CS403/Lox interpreter/Lox/tool/obj/Debug/net9.0/tool.sourcelink.json
