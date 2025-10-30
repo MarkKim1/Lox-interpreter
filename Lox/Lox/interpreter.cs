@@ -1,10 +1,29 @@
 using System.ComponentModel;
 using System.Data;
+using System.Reflection.Metadata.Ecma335;
 using LoxInterpreter;
+
+sealed class ClockFunction : LoxCallable
+{
+    public int arity() => 0;
+
+    public object call(Interpreter interpreter, List<object> arguments)
+        => (double)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() / 1000.0;
+
+    public string toString()
+    {
+        return "<native fn>";
+    }
+}
 class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
 {
-    private Environment1 environment = new Environment1();
-
+    public readonly Environment1 globals = new();
+    private Environment1 environment = new();
+    public Interpreter()
+    {
+        globals.define("clock", new ClockFunction());
+        environment = globals;
+    }
     private object Evaluate(Expr expr)
     {
         return expr.Accept(this);
@@ -13,7 +32,7 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
     {
         stmt.Accept(this);
     }
-    void executeBlock(List<Stmt> statements, Environment1 environment)
+    public void executeBlock(List<Stmt> statements, Environment1 environment)
     {
         Environment1 previous = this.environment;
         try
@@ -247,5 +266,42 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
             execute(stmt.body!);
         }
         return null!;
+    }
+
+    public object visitCallExpr(Expr.Call expr)
+    {
+        object callee = Evaluate(expr.callee!);
+        List<object> arguments = [];
+        foreach (Expr argument in expr.arguments!)
+        {
+            arguments.Add(Evaluate(argument));
+        }
+        LoxCallable function = (LoxCallable)callee;
+        if (arguments.Count != function.arity())
+        {
+            throw new RuntimeError(expr.paran!, "Expected " +
+                    function.arity() + " arguments but got " +
+                    arguments.Count + ".");
+        }
+        if (callee is not LoxCallable)
+        {
+            throw new RuntimeError(expr.paran!, "Can only call functions and classes");
+        }
+        return function.call(this, arguments);
+    }
+
+    public object visitFunctionStmt(Stmt.Function stmt)
+    {
+        LoxFunction function = new(stmt, environment);
+        environment.define(stmt.name!.lexeme!, function);
+        return null!;
+    }
+
+    public object visitReturnStmt(Stmt.Return stmt)
+    {
+        object? value = null;
+        if (stmt.value! != null) value = Evaluate(stmt.value);
+
+        throw new Return(value!);
     }
 }
