@@ -18,6 +18,20 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
         endScope();
         return null!;
     }
+    public object visitClassStmt(Stmt.Class stmt)
+    {
+        declare(stmt.name!);
+        define(stmt.name!);
+
+        foreach (Stmt.Function method in stmt.methods!)
+        {
+            FunctionType declaration = FunctionType.METHOD;
+            resolveFunction(method, declaration);
+        }
+
+        return null!;
+    }
+
     public object visitExpressionStmt(Stmt.Expression stmt)
     {
         resolve(stmt.expression!);
@@ -93,6 +107,11 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
         }
         return null!;
     }
+    public object visitGetExpr(Expr.Get expr)
+    {
+        resolve(expr.obj!);
+        return null!;
+    }
     public object visitGroupingExpr(Expr.Grouping expr)
     {
         resolve(expr.expression!);
@@ -106,6 +125,12 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
     {
         resolve(expr.left!);
         resolve(expr.right!);
+        return null!;
+    }
+    public object visitSetExpr(Expr.Set expr)
+    {
+        resolve(expr.value!);
+        resolve(expr.obj!);
         return null!;
     }
     public object visitUnaryExpr(Expr.Unary expr)
@@ -189,9 +214,11 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
             resolve(statement);
         }
     }
+
     private enum FunctionType
     {
         NONE,
-        FUNCTION
+        FUNCTION,
+        METHOD
     }
 }

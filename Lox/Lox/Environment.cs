@@ -1,7 +1,7 @@
 using System.Data;
 using System.Collections.Generic;
 
-class Environment1
+public class Environment1
 {
     readonly Environment1? enclosing;
     private readonly Dictionary<string, object> values = [];

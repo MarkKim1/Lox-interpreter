@@ -1,14 +1,7 @@
-var digits = ["0","1","2","3","4","5","6","7","8","9"];
-fun str(n) { return digits[n]; }
-
-var s = "";
-var i = 0;
-
-fun appendI() { s = s + str(i); }
-
-while (i < 4) {
-  appendI();
-  i = i + 1;
+class Bacon {
+  eat() {
+    print "Crunch crunch crunch!";
+  }
 }
 
-print s; // 0123
+Bacon().eat(); // Prints "Crunch crunch crunch!".

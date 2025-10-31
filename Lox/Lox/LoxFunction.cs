@@ -1,6 +1,6 @@
 using LoxInterpreter;
 
-class LoxFunction : LoxCallable
+public class LoxFunction : LoxCallable
 {
     private readonly Stmt.Function declaration;
     private readonly Environment1 closure;

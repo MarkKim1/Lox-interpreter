@@ -16,7 +16,7 @@ sealed class ClockFunction : LoxCallable
         return "<native fn>";
     }
 }
-class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
+public class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
 {
     public readonly Environment1 globals = new();
     private Environment1 environment = new();
@@ -262,7 +262,19 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
         executeBlock(stmt.statements!, new Environment1(environment));
         return null!;
     }
-
+    public object visitClassStmt(Stmt.Class stmt)
+    {
+        environment.define(stmt.name!.lexeme!, null!);
+        Dictionary<string, LoxFunction> methods = [];
+        foreach (Stmt.Function method in stmt.methods!)
+        {
+            LoxFunction function = new(method, environment);
+            methods.Add(method.name!.lexeme!, function);
+        }
+        LoxClass klass = new LoxClass(stmt.name!.lexeme!, methods);
+        environment.assign(stmt.name, klass);
+        return null!;
+    }
     public object visitIfStmt(Stmt.If stmt)
     {
         if (IsTruthy(Evaluate(stmt.condition!)))
@@ -289,6 +301,17 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
             if (!IsTruthy(left)) return left;
         }
         return Evaluate(expr.right!);
+    }
+    public object visitSetExpr(Expr.Set expr)
+    {
+        object obj = Evaluate(expr.obj!);
+        if (obj is not LoxInstance)
+        {
+            throw new RuntimeError(expr.name!, "Only instance have fields");
+        }
+        object value = Evaluate(expr.value!);
+        ((LoxInstance)obj).set(expr.name!, value);
+        return value;
     }
 
     public object visitWhileStmt(Stmt.While stmt)
@@ -320,6 +343,15 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
             throw new RuntimeError(expr.paran!, "Can only call functions and classes");
         }
         return function.call(this, arguments);
+    }
+    public object visitGetExpr(Expr.Get expr)
+    {
+        object obj = Evaluate(expr.obj!);
+        if (obj is LoxInstance)
+        {
+            return ((LoxInstance)obj).get(expr.name!);
+        }
+        throw new RuntimeError(expr.name!, "Only instances have porperties.");
     }
 
     public object visitFunctionStmt(Stmt.Function stmt)
