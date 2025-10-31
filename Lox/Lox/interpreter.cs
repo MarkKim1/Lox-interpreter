@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Data;
+using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using LoxInterpreter;
 
@@ -19,6 +20,7 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
 {
     public readonly Environment1 globals = new();
     private Environment1 environment = new();
+    private readonly Dictionary<Expr, int> locals = [];
     public Interpreter()
     {
         globals.define("clock", new ClockFunction());
@@ -31,6 +33,10 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
     private void execute(Stmt stmt)
     {
         stmt.Accept(this);
+    }
+    public void resolve(Expr expr, int depth)
+    {
+        locals.Add(expr, depth);
     }
     public void executeBlock(List<Stmt> statements, Environment1 environment)
     {
@@ -191,9 +197,22 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
 
     public object visitVariableExpr(Expr.Variable expr)
     {
-        return environment.get(expr.name!);
+        return lookUpVariable(expr.name!, expr);
     }
+    private object lookUpVariable(Token name, Expr expr)
+    {
 
+        int? distance;
+        if (locals.ContainsKey(expr))
+        {
+            distance = locals[expr];
+            return environment.getAt(distance, name.lexeme!);
+        }
+        else
+        {
+            return globals.get(name);
+        }
+    }
     object Stmt.Visitor<object>.visitExpressionStmt(Stmt.Expression stmt)
     {
         Evaluate(stmt.expression!);
@@ -221,7 +240,20 @@ class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
     public object visitAssignExpr(Expr.Assign expr)
     {
         object value = Evaluate(expr.value!);
-        environment.assign(expr.name!, value);
+        //Console.WriteLine(value);
+        int? distance = null;
+        if (locals.ContainsKey(expr))
+        {
+            distance = locals[expr];
+        }
+        if (distance != null)
+        {
+            environment.assignAt(distance, expr.name!, value);
+        }
+        else
+        {
+            globals.assign(expr.name!, value);
+        }
         return value;
     }
 

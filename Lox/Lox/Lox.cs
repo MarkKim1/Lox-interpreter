@@ -64,7 +64,9 @@ public class Lox
         List<Stmt> statements = parser.parse();
 
         if (hadError) return;
-
+        Resolver resolver = new Resolver(interpreter);
+        resolver.resolve(statements);
+        if (hadError) return;
         //Console.WriteLine(new AstPrinter().Print(expression));
         interpreter.interpret(statements);
 

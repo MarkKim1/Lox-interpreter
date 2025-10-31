@@ -19,6 +19,29 @@ class Environment1
         values.Remove(name);
         values.Add(name, value);
     }
+    Environment1 ancestor(int? distance)
+    {
+        Environment1 environment = this;
+        for (int i = 0; i < distance; i++)
+        {
+            environment = environment.enclosing!;
+        }
+        return environment;
+    }
+    public object getAt(int? distance, string name)
+    {
+        var env = ancestor(distance);
+        // Resolver guarantees the key exists at this distance.
+        // Using TryGetValue to be safe.
+        if (env.values.TryGetValue(name, out var value))
+            return value;
+        return null!;
+    }
+    public void assignAt(int? distance, Token name, object value)
+    {
+        var env = ancestor(distance);
+        env.values[name.lexeme!] = value;
+    }
     public object get(Token name)
     {
         if (values.ContainsKey(name.lexeme!))
