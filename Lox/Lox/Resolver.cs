@@ -20,15 +20,27 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
     }
     public object visitClassStmt(Stmt.Class stmt)
     {
+        ClassType enclosingClass = currentClass;
+        currentClass = ClassType.CLASS;
+
         declare(stmt.name!);
         define(stmt.name!);
+
+        beginScope();
+        scopes.Peek()["this"] = true;
 
         foreach (Stmt.Function method in stmt.methods!)
         {
             FunctionType declaration = FunctionType.METHOD;
+            if (method.name!.lexeme!.Equals("init"))
+            {
+                declaration = FunctionType.INITIALIZER;
+            }
             resolveFunction(method, declaration);
         }
+        endScope();
 
+        currentClass = enclosingClass;
         return null!;
     }
 
@@ -82,6 +94,10 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
         }
         if (stmt.value != null)
         {
+            if (currentFunction == FunctionType.INITIALIZER)
+            {
+                Lox.Error(stmt.keyword!, "Can't return a value from an initializer");
+            }
             resolve(stmt.value);
         }
         return null!;
@@ -131,6 +147,15 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
     {
         resolve(expr.value!);
         resolve(expr.obj!);
+        return null!;
+    }
+    public object visitThisExpr(Expr.This expr)
+    {
+        if (currentClass == ClassType.NONE)
+        {
+            Lox.Error(expr.keyword!, "Can't use 'this' outside of a class");
+        }
+        resolveLocal(expr, expr.keyword!);
         return null!;
     }
     public object visitUnaryExpr(Expr.Unary expr)
@@ -186,7 +211,7 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
         {
             Lox.Error(name, "Already a variable with this name in this scope.");
         }
-        scope.TryAdd(name.lexeme!, false);
+        scope[name.lexeme!] = false;
     }
     private void define(Token name)
     {
@@ -219,6 +244,13 @@ class Resolver : Expr.Visitor<object>, Stmt.Visitor<object>
     {
         NONE,
         FUNCTION,
+        INITIALIZER,
         METHOD
     }
+    private enum ClassType
+    {
+        NONE,
+        CLASS
+    }
+    private ClassType currentClass = ClassType.NONE;
 }

@@ -1,6 +1,6 @@
 using LoxInterpreter;
 
-class LoxInstance
+public class LoxInstance
 {
     private LoxClass? klass;
     private readonly Dictionary<string, object> fields = [];
@@ -15,12 +15,12 @@ class LoxInstance
             return value;
         }
         LoxFunction method = klass!.findMethod(name.lexeme!);
-        if (method != null) return method;
+        if (method != null) return method.bind(this);
         throw new RuntimeError(name, "Undefined property '" + name.lexeme + "'.");
     }
     public void set(Token name, object value)
     {
-        fields.Add(name.lexeme!, value);
+        fields[name.lexeme!] = value;
     }
     public override string ToString()
     {

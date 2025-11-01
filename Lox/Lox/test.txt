@@ -1,7 +1,103 @@
-class Bacon {
-  eat() {
-    print "Crunch crunch crunch!";
+class DevonshireCream {
+  serveOn() { return "Scones"; }
+}
+print DevonshireCream;
+////////////////////////////////////////////////////////
+class Bagel {}
+var b = Bagel();
+print b;
+////////////////////////////////////////////////////////
+class Box {}
+var x = Box();
+x.value = 42;
+print x.value;
+////////////////////////////////////////////////////////
+class A {}
+class B {}
+class C {}
+var a = A();
+a.b = B();
+a.b.c = C();
+a.b.c.name = "ok";
+print a.b.c.name;
+////////////////////////////////////////////////////////
+class Bacon { 
+  eat() { 
+    print "Crunch crunch crunch!"; 
+  } 
+}
+Bacon().eat();
+////////////////////////////////////////////////////////
+class Thing {
+  ping() { print "method"; }
+}
+var t = Thing();
+t.ping = "field";
+print t.ping;
+////////////////////////////////////////////////////////
+class Person {
+  init(name) { this.name = name; }
+  say() { print this.name; }
+}
+Person("Jane").say();
+////////////////////////////////////////////////////////
+class Counter {
+  init(n) { this.n = n; }
+  inc() { this.n = this.n + 1; }
+  show() { print this.n; }
+}
+var c = Counter(10);
+var add = c.inc;
+add(); add();
+c.show();
+////////////////////////////////////////////////////////
+class Person { init(name) { this.name = name; } say() { print this.name; } }
+var jane = Person("Jane");
+var bill = Person("Bill");
+bill.say = jane.say; // assign bound method
+bill.say();
+////////////////////////////////////////////////////////
+class T {
+  init(id) { this.id = id; }
+  callback() {
+    fun f() { print this.id; }
+    return f;
   }
 }
+var cb = T("X").callback();
+cb();
+////////////////////////////////////////////////////////
+class P {
+  init(a, b) { this.sum = a + b; }
+}
+var p = P(2, 3);
+////////////////////////////////////////////////////////
+print p.sum;
+class K { 
+  init(a, b, c){
 
-Bacon().eat(); // Prints "Crunch crunch crunch!".
+  } 
+}
+K(1,2,3);
+////////////////////////////////////////////////////////
+class Foo { 
+  init() { 
+    return; 
+  } 
+}
+var f = Foo();
+print f.init() == f;
+////////////////////////////////////////////////////////
+class Circle {
+  init(r) { this.r = r; }
+  area() { return 3.141592653 * this.r * this.r; }
+  grow() { this.r = this.r + 1; }
+}
+
+var c = Circle(2);
+print c.area(); // 12.566370612
+var g = c.grow; // tear-off (bound)
+g();
+print c.area(); // 28.274333883...
+c.color = "red";
+print c.color;  // red

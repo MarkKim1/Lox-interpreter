@@ -11,6 +11,7 @@ public interface Visitor<R>
     R visitLiteralExpr(Literal expr);
     R visitLogicalExpr(Logical expr);
     R visitSetExpr(Set expr);
+    R visitThisExpr(This expr);
     R visitUnaryExpr(Unary expr);
     R visitVariableExpr(Variable expr);
 }
@@ -129,6 +130,18 @@ public class Set : Expr
     public override R Accept<R>(Visitor<R> visitor)
     {
         return visitor.visitSetExpr(this);
+    }
+}
+public class This : Expr
+{
+    public readonly Token? keyword;
+    public This ( Token keyword )
+    {
+        this.keyword = keyword;
+    }
+    public override R Accept<R>(Visitor<R> visitor)
+    {
+        return visitor.visitThisExpr(this);
     }
 }
 public class Unary : Expr

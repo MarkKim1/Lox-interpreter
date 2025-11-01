@@ -268,7 +268,7 @@ public class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
         Dictionary<string, LoxFunction> methods = [];
         foreach (Stmt.Function method in stmt.methods!)
         {
-            LoxFunction function = new(method, environment);
+            LoxFunction function = new(method, environment, method.name!.lexeme!.Equals("init"));
             methods.Add(method.name!.lexeme!, function);
         }
         LoxClass klass = new LoxClass(stmt.name!.lexeme!, methods);
@@ -313,6 +313,10 @@ public class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
         ((LoxInstance)obj).set(expr.name!, value);
         return value;
     }
+    public object visitThisExpr(Expr.This expr)
+    {
+        return lookUpVariable(expr.keyword!, expr);
+    }
 
     public object visitWhileStmt(Stmt.While stmt)
     {
@@ -356,7 +360,7 @@ public class Interpreter : Expr.Visitor<object>, Stmt.Visitor<object>
 
     public object visitFunctionStmt(Stmt.Function stmt)
     {
-        LoxFunction function = new(stmt, environment);
+        LoxFunction function = new(stmt, environment, false);
         environment.define(stmt.name!.lexeme!, function);
         return null!;
     }

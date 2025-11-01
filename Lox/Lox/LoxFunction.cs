@@ -4,9 +4,11 @@ public class LoxFunction : LoxCallable
 {
     private readonly Stmt.Function declaration;
     private readonly Environment1 closure;
+    private readonly bool isInitializer;
 
-    public LoxFunction(Stmt.Function declaration, Environment1 closure)
+    public LoxFunction(Stmt.Function declaration, Environment1 closure, bool isInitializer)
     {
+        this.isInitializer = isInitializer;
         this.closure = closure;
         this.declaration = declaration ?? throw new ArgumentNullException(nameof(declaration));
     }
@@ -34,9 +36,10 @@ public class LoxFunction : LoxCallable
         }
         catch (Return returnValue)
         {
+            if (isInitializer) return closure.getAt(0, "this");
             return returnValue.value!;
         }
-        // No return values yet; nil in Lox => null in C#
+        if (isInitializer) return closure.getAt(0, "this");
         return null!;
     }
 
@@ -44,5 +47,12 @@ public class LoxFunction : LoxCallable
     public override string ToString()
     {
         return "<fn " + declaration.name!.lexeme + ">";
+    }
+
+    public LoxFunction bind(LoxInstance instance)
+    {
+        Environment1 environment = new Environment1(closure);
+        environment.define("this", instance);
+        return new LoxFunction(declaration, environment, isInitializer);
     }
 }

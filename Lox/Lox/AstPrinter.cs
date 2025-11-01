@@ -49,6 +49,11 @@ public class AstPrinter : Expr.Visitor<string>
         throw new NotImplementedException();
     }
 
+    public string visitThisExpr(Expr.This expr)
+    {
+        throw new NotImplementedException();
+    }
+
     public string visitUnaryExpr(Expr.Unary expr)
     {
         return Parenthesize(expr.operatorToken!.lexeme!, expr.right!);

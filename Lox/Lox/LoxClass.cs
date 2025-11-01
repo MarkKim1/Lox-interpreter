@@ -25,11 +25,18 @@ public class LoxClass : LoxCallable
     object LoxCallable.call(Interpreter interpreter, List<object> arguments)
     {
         LoxInstance instance = new LoxInstance(this);
+        LoxFunction initializer = findMethod("init");
+        if (initializer != null)
+        {
+            initializer.bind(instance).call(interpreter, arguments);
+        }
         return instance;
     }
     public int arity()
     {
-        return 0;
+        LoxFunction initializer = findMethod("init");
+        if (initializer == null) return 0;
+        return initializer.arity();
     }
 
 
